@@ -1,25 +1,25 @@
 import {createSlice} from "@reduxjs/toolkit";
 
-export type LocalDataPayload<T> = {key: string; value: T};
+// export type LocalDataPayload<T> = {key: string; value: T};
+export interface localStorageStore {
+	autoLogin: boolean;
+}
 
 const initialState = {
 	data: {
 		autoLogin: false,
-	} as Record<string, any>,
+	} as localStorageStore,
 };
 
 const sliceStore = createSlice({
 	name: "localStore",
 	initialState,
 	reducers: {
-		setData: (state, action: {payload: LocalDataPayload<any>}) => {
-			const {payload} = action;
-			console.log(payload);
-			state.data.autoLogin = payload;
-			// state.data[payload.key] = payload.value;
+		setAutoLogin: (state, action: {payload: boolean}) => {
+			state.data.autoLogin = action.payload;
 		},
 	},
 });
 
-export const {setData} = sliceStore.actions;
+export const {setAutoLogin} = sliceStore.actions;
 export default sliceStore.reducer;

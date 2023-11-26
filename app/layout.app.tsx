@@ -1,4 +1,3 @@
-// "use client";
 import type {Metadata, ResolvingMetadata} from "next";
 import "@style/globals.css";
 import {useEffect} from "react";
@@ -20,9 +19,5 @@ export const metadata: Metadata = {
 // }
 
 export default function RootLayout({children}: {children: React.ReactNode}) {
-	return (
-		<html lang="en">
-			<body>{children}</body>
-		</html>
-	);
+	return <html lang="en">{children}</html>;
 }

@@ -1,16 +1,20 @@
-"use client";
+import AgreeType from "@/components/popup/AgreeType";
+import {useOverlay} from "@/hooks/common/useOverlay";
 import {useAppDispatch, useAppSelector} from "@/store";
-import {setData} from "@/store/store-local";
-import "@style/contents.css";
+import {setAutoLogin} from "@/store/store-local";
+import {useRouter} from "next/navigation";
 import {useEffect} from "react";
 
 const Page = () => {
 	const local = useAppSelector(state => state.localDataStore);
+	const router = useRouter();
 	const dispatch = useAppDispatch();
-
 	useEffect(() => {
-		console.log(local);
-	}, [local]);
+		if (local.data.autoLogin) (document.querySelector("#autoSave") as HTMLInputElement).click();
+	}, []);
+
+	const overlay = useOverlay();
+	// const open2 = useOverlay();
 
 	return (
 		<div className="wrap">
@@ -29,10 +33,10 @@ const Page = () => {
 			</div>
 			<div className="container">
 				<div className="loginWrap">
-					<div className="row">
+					<div className="row" onClick={() => overlay.open(() => <AgreeType />)}>
 						<a className="btns kakao">카카오 계정으로 로그인</a>
 					</div>
-					<div className="row">
+					<div className="row" onClick={() => router.push("/agree")}>
 						<a className="btns naver">네이버 계정으로 로그인</a>
 					</div>
 					<div className="row">
@@ -45,8 +49,10 @@ const Page = () => {
 						<input
 							type="checkbox"
 							id="autoSave"
-							onClick={() => {
-								dispatch(setData(true));
+							defaultChecked={local.data.autoLogin}
+							onChange={e => {
+								const {checked} = e.target as HTMLInputElement;
+								dispatch(setAutoLogin(Boolean(checked)));
 							}}
 						/>
 						<label htmlFor="autoSave">자동 로그인</label>

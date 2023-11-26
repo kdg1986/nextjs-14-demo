@@ -1,12 +1,17 @@
 "use client";
+import {OverlayProvider} from "@/hooks/provider/OverlayProvider";
+// import "@style/contents.css";
 import ReduxProvider from "@/store/ReduxProvider";
 import {useEffect} from "react";
 
 export default function Template({children}: {children: React.ReactNode}) {
-	useEffect(() => {
-		console.log("template");
-	}, []);
-
-	// return <ReduxProvider>{children}</ReduxProvider>;
-	return <>{children}</>;
+	return (
+		<ReduxProvider>
+			<OverlayProvider>
+				{/* <body id="tttt"> */}
+				<div className="wrap">{children}</div>
+				{/* </body> */}
+			</OverlayProvider>
+		</ReduxProvider>
+	);
 }
